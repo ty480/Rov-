@@ -83,6 +83,8 @@
 <div id="teams">
   <div class="team" id="team1"><h2>ทีม 1</h2></div>
   <div class="team" id="team2"><h2>ทีม 2</h2></div>
+  <div class="team" id="team3"><h2>ทีม 3</h2></div>
+  <div class="team" id="team4"><h2>ทีม 4</h2></div>
 </div>
 
 <script>
@@ -114,37 +116,30 @@ function shuffle(array){
 
 function generateTeams(){
   const shuffled = shuffle([...heroes]);
-  const team1 = shuffled.slice(0,5);
-  const team2 = shuffled.slice(5,10);
+  const teams = [
+    shuffled.slice(0,5),
+    shuffled.slice(5,10),
+    shuffled.slice(10,15),
+    shuffled.slice(15,20)
+  ];
 
-  const team1Div = document.getElementById('team1');
-  const team2Div = document.getElementById('team2');
-
-  team1Div.innerHTML = '<h2>ทีม 1</h2>';
-  team2Div.innerHTML = '<h2>ทีม 2</h2>';
-
-  const pos1 = shuffle([...positions]);
-  const pos2 = shuffle([...positions]);
-
-  team1.forEach((hero,i)=>{
-    const div = document.createElement('div');
-    div.className = 'hero';
-    div.innerHTML = `<div class="position">${pos1[i]}</div>${hero}`;
-    team1Div.appendChild(div);
-  });
-
-  team2.forEach((hero,i)=>{
-    const div = document.createElement('div');
-    div.className = 'hero';
-    div.innerHTML = `<div class="position">${pos2[i]}</div>${hero}`;
-    team2Div.appendChild(div);
-  });
+  for(let t=1; t<=4; t++){
+    const teamDiv = document.getElementById('team'+t);
+    teamDiv.innerHTML = `<h2>ทีม ${t}</h2>`;
+    const pos = shuffle([...positions]);
+    teams[t-1].forEach((hero,i)=>{
+      const div = document.createElement('div');
+      div.className = 'hero';
+      div.innerHTML = `<div class="position">${pos[i]}</div>${hero}`;
+      teamDiv.appendChild(div);
+    });
+  }
 }
 
 function toggleRandom() {
   const clickSound = document.getElementById("clickSound");
-  clickSound.currentTime = 0; // รีเซ็ตเสียง
-  clickSound.play();          // เล่นเสียงตอนกดปุ่ม
+  clickSound.currentTime = 0;
+  clickSound.play();
 
   if (isRandomizing) {
     clearInterval(intervalId);
